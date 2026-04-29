@@ -1,38 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SiqScore</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0b1220;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:#111827;
+position:sticky;
+top:0;
+}
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:#00ff66;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+cursor:pointer;
+}
+
+nav a:hover{
+color:#00ff66;
+}
+
+.hero{
+text-align:center;
+padding:90px 20px;
+}
+
+.hero h1{
+font-size:52px;
+margin-bottom:10px;
+}
+
+.hero span{
+color:#00ff66;
+}
+
+button{
+background:#00ff66;
+color:#000;
+border:none;
+padding:14px 28px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.section{
+padding:50px 10%;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+}
+
+.card{
+background:#161b22;
+padding:25px;
+border-radius:18px;
+box-shadow:0 0 12px rgba(0,255,100,.08);
+}
+
+.percent{
+font-size:32px;
+font-weight:bold;
+color:#00ff66;
+margin:10px 0;
+}
+
+.hidden{
+display:none;
+}
+
+footer{
+text-align:center;
+padding:30px;
+margin-top:50px;
+background:#111827;
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">⚽ SiqScore</div>
+
+<nav>
+<a onclick="mostrar('inicio')">Início</a>
+<a onclick="mostrar('jogos')">Jogos</a>
+<a onclick="mostrar('stats')">Estatísticas</a>
+</nav>
+</header>
+
+<div id="inicio">
+<section class="hero">
+<h1>Análises para <span>Apostas</span></h1>
+
+<p>Probabilidades e melhores entradas do dia.</p>
+
+<br>
+
+<button onclick="mostrar('jogos')">
+Ver Jogos do Dia
+</button>
+
+</section>
+</div>
+
+
+<div id="jogos">
+
+<section class="section">
+
+<h2>🔥 Jogos do Dia</h2>
+
+<button onclick="atualizarJogos()">
+Atualizar Jogos
+</button>
+
+<br><br>
+
+<div class="cards">
+
+<div class="card">
+<h3 id="jogo1">Palmeiras x Flamengo</h3>
+
+<p>Melhor entrada</p>
+
+<div id="odd1" class="percent">
+68%
+</div>
+
+<p id="pick1">
+Ambas marcam
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3 id="jogo2">
+Real Madrid x Barcelona
+</h3>
+
+<p>Melhor entrada</p>
+
+<div id="odd2" class="percent">
+64%
+</div>
+
+<p id="pick2">
+Over 2.5 gols
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+
+<div id="stats" class="hidden">
+
+<section class="section">
+
+<h2>📈 Estatísticas</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Taxa de Acerto</h3>
+<div class="percent">
+72%
+</div>
+</div>
+
+<div class="card">
+<h3>Média de Gols</h3>
+<div class="percent">
+2.7
+</div>
+</div>
+
+<div class="card">
+<h3>Escanteios / jogo</h3>
+<div class="percent">
+9.2
+</div>
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<footer>
+SiqScore © 2026
+</footer>
+
+
 <script>
-async function atualizarJogos(){
 
-const url='https://v3.football.api-sports.io/fixtures?live=all';
+function mostrar(secao){
 
-const resposta = await fetch(url,{
-headers:{
-'x-rapidapi-key':'COLE_SUA_CHAVE_AQUI',
-'x-rapidapi-host':'v3.football.api-sports.io'
-}
-});
+document.getElementById('inicio').classList.add('hidden');
+document.getElementById('jogos').classList.add('hidden');
+document.getElementById('stats').classList.add('hidden');
 
-const dados = await resposta.json();
-
-if(dados.response.length>0){
-let jogo = dados.response[0];
-
-let casa = jogo.teams.home.name;
-let fora = jogo.teams.away.name;
-let golsCasa = jogo.goals.home ?? 0;
-let golsFora = jogo.goals.away ?? 0;
-
-
-document.getElementById('jogo1').innerText=
-`${casa} x ${fora}`;
-
-
-document.getElementById('odd1').innerText=
-`${golsCasa}-${golsFora}`;
-
-
-document.getElementById('pick1').innerText=
-'Jogo ao vivo';
+document.getElementById(secao).classList.remove('hidden');
 
 }
 
+function atualizarJogos(){
+
+let jogos=[
+["Manchester City x Arsenal","73%","Over 2.5 gols"],
+["Liverpool x Chelsea","66%","Ambas marcam"],
+["Palmeiras x São Paulo","58%","Palmeiras vence"]
+];
+
+let i=Math.floor(Math.random()*jogos.length);
+
+document.getElementById('jogo1').innerText=jogos[i][0];
+document.getElementById('odd1').innerText=jogos[i][1];
+document.getElementById('pick1').innerText=jogos[i][2];
+
+alert("Jogos atualizados!");
+
 }
+
 </script>
+
+</body>
+</html>
