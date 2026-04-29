@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SiqScore</title>
+<title>SiqScore 2.0</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial,sans-serif;
+font-family:Arial;
 background:#0b1220;
 color:white;
 }
 
 header{
+background:#111827;
+padding:20px 40px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 40px;
-background:#111827;
 position:sticky;
 top:0;
 }
 
 .logo{
-font-size:30px;
+font-size:32px;
 font-weight:bold;
 color:#00ff66;
 }
 
 nav a{
-color:white;
-text-decoration:none;
 margin-left:25px;
+text-decoration:none;
+color:white;
 cursor:pointer;
 }
 
@@ -43,11 +44,11 @@ color:#00ff66;
 .hero{
 text-align:center;
 padding:90px 20px;
+background:linear-gradient(#111827,#0b1220);
 }
 
 .hero h1{
-font-size:52px;
-margin-bottom:10px;
+font-size:58px;
 }
 
 .hero span{
@@ -56,19 +57,18 @@ color:#00ff66;
 
 button{
 background:#00ff66;
-color:#000;
 border:none;
-padding:14px 28px;
-border-radius:10px;
+padding:15px 30px;
+border-radius:12px;
 font-weight:bold;
 cursor:pointer;
 }
 
 .section{
-padding:50px 10%;
+padding:50px 8%;
 }
 
-.cards{
+.grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
 gap:25px;
@@ -76,182 +76,247 @@ gap:25px;
 
 .card{
 background:#161b22;
-padding:25px;
-border-radius:18px;
-box-shadow:0 0 12px rgba(0,255,100,.08);
+padding:30px;
+border-radius:20px;
+box-shadow:0 0 15px rgba(0,255,100,.08);
 }
 
-.percent{
-font-size:32px;
+.big{
+font-size:35px;
 font-weight:bold;
 color:#00ff66;
-margin:10px 0;
 }
 
-.hidden{
-display:none;
+.bar{
+background:#26303d;
+height:20px;
+border-radius:30px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.fill{
+height:100%;
+background:#00ff66;
+width:68%;
+}
+
+.live{
+background:red;
+padding:5px 12px;
+border-radius:20px;
+font-size:14px;
 }
 
 footer{
-text-align:center;
-padding:30px;
-margin-top:50px;
 background:#111827;
+padding:30px;
+text-align:center;
+margin-top:50px;
 }
+
 </style>
 </head>
 <body>
+
 
 <header>
 <div class="logo">⚽ SiqScore</div>
 
 <nav>
-<a onclick="mostrar('inicio')">Início</a>
-<a onclick="mostrar('jogos')">Jogos</a>
-<a onclick="mostrar('stats')">Estatísticas</a>
+<a href="#jogos">Jogos</a>
+<a href="#prob">Probabilidades</a>
+<a href="#live">Ao Vivo</a>
 </nav>
+
 </header>
 
-<div id="inicio">
-<section class="hero">
-<h1>Análises para <span>Apostas</span></h1>
 
-<p>Probabilidades e melhores entradas do dia.</p>
+
+<section class="hero">
+
+<h1>
+Encontre <span>Value Bets</span><br>
+com Estatística
+</h1>
+
+<p>
+Análises, probabilidades e picks do dia.
+</p>
 
 <br>
 
-<button onclick="mostrar('jogos')">
-Ver Jogos do Dia
+<button onclick="atualizarLive()">
+Atualizar Jogos Ao Vivo
 </button>
 
 </section>
-</div>
 
 
-<div id="jogos">
 
 <section class="section">
 
-<h2>🔥 Jogos do Dia</h2>
+<h2>🔥 Pick do Dia</h2>
 
-<button onclick="atualizarJogos()">
-Atualizar Jogos
-</button>
-
-<br><br>
-
-<div class="cards">
+<div class="grid">
 
 <div class="card">
-<h3 id="jogo1">Palmeiras x Flamengo</h3>
+<h3>Palmeiras x Flamengo</h3>
 
-<p>Melhor entrada</p>
+<p>Ambas marcam</p>
 
-<div id="odd1" class="percent">
+<div class="big">
 68%
 </div>
 
-<p id="pick1">
+<div class="bar">
+<div class="fill"></div>
+</div>
+
+</div>
+
+
+<div class="card">
+<h3>ROI do mês</h3>
+
+<div class="big">
++18%
+</div>
+
+<p>Taxa de acerto: 72%</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section id="jogos" class="section">
+
+<h2>⚽ Jogos do Dia</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3 id="j1">
+Manchester City x Arsenal
+</h3>
+
+<p id="pick">
+Over 2.5 Gols
+</p>
+
+<div class="big" id="odd">
+73%
+</div>
+
+</div>
+
+
+<div class="card">
+<h3>
+Liverpool x Chelsea
+</h3>
+
+<p>
 Ambas marcam
 </p>
 
+<div class="big">
+66%
 </div>
 
+</div>
+
+</div>
+
+</section>
+
+
+
+<section id="prob" class="section">
+
+<h2>📊 Probabilidades</h2>
+
+<div class="grid">
+
+<div class="card">
+Vitória Mandante
+<div class="big">
+52%
+</div>
+</div>
+
+<div class="card">
+Over 2.5
+<div class="big">
+61%
+</div>
+</div>
+
+<div class="card">
+Escanteios +9.5
+<div class="big">
+57%
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+
+<section id="live" class="section">
+
+<h2>
+<span class="live">
+AO VIVO
+</span>
+ Jogos ao Vivo
+</h2>
 
 <div class="card">
 
-<h3 id="jogo2">
-Real Madrid x Barcelona
+<h3 id="livegame">
+Real Madrid 1 x 0 Barcelona
 </h3>
 
-<p>Melhor entrada</p>
-
-<div id="odd2" class="percent">
-64%
-</div>
-
-<p id="pick2">
-Over 2.5 gols
+<p id="minuto">
+67 minutos
 </p>
 
 </div>
 
-</div>
-
 </section>
 
-</div>
-
-
-
-<div id="stats" class="hidden">
-
-<section class="section">
-
-<h2>📈 Estatísticas</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3>Taxa de Acerto</h3>
-<div class="percent">
-72%
-</div>
-</div>
-
-<div class="card">
-<h3>Média de Gols</h3>
-<div class="percent">
-2.7
-</div>
-</div>
-
-<div class="card">
-<h3>Escanteios / jogo</h3>
-<div class="percent">
-9.2
-</div>
-</div>
-
-</div>
-
-</section>
-
-</div>
 
 
 <footer>
-SiqScore © 2026
+SiqScore 2.0 © 2026
 </footer>
+
 
 
 <script>
 
-function mostrar(secao){
-
-document.getElementById('inicio').classList.add('hidden');
-document.getElementById('jogos').classList.add('hidden');
-document.getElementById('stats').classList.add('hidden');
-
-document.getElementById(secao).classList.remove('hidden');
-
-}
-
-function atualizarJogos(){
+function atualizarLive(){
 
 let jogos=[
-["Manchester City x Arsenal","73%","Over 2.5 gols"],
-["Liverpool x Chelsea","66%","Ambas marcam"],
-["Palmeiras x São Paulo","58%","Palmeiras vence"]
+["Manchester City 2 x 1 Arsenal","74 minutos","78%"],
+["Palmeiras 1 x 0 São Paulo","63 minutos","59%"],
+["Liverpool 2 x 2 Chelsea","81 minutos","69%"]
 ];
 
 let i=Math.floor(Math.random()*jogos.length);
 
-document.getElementById('jogo1').innerText=jogos[i][0];
-document.getElementById('odd1').innerText=jogos[i][1];
-document.getElementById('pick1').innerText=jogos[i][2];
+document.getElementById("livegame").innerText=jogos[i][0];
+document.getElementById("minuto").innerText=jogos[i][1];
+document.getElementById("odd").innerText=jogos[i][2];
 
-alert("Jogos atualizados!");
+alert("Dados ao vivo atualizados!");
 
 }
 
