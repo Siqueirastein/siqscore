@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SiqScore 2.0</title>
+<title>SiqScore</title>
 
 <style>
 
@@ -16,103 +16,115 @@ color:white;
 
 header{
 background:#111827;
-padding:20px 40px;
+padding:18px 30px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-position:sticky;
-top:0;
 }
 
 .logo{
-font-size:32px;
+font-size:30px;
 font-weight:bold;
 color:#00ff66;
 }
 
-nav a{
-margin-left:25px;
+.menu a{
+margin-left:20px;
+cursor:pointer;
 text-decoration:none;
 color:white;
+}
+
+.menu a:hover{
+color:#00ff66;
+}
+
+.tabs{
+display:flex;
+gap:15px;
+padding:20px 30px;
+background:#161b22;
+overflow:auto;
+}
+
+.tab{
+background:#26303d;
+padding:10px 18px;
+border-radius:20px;
 cursor:pointer;
 }
 
-nav a:hover{
-color:#00ff66;
+.tab:hover{
+background:#00ff66;
+color:black;
 }
 
-.hero{
-text-align:center;
-padding:90px 20px;
-background:linear-gradient(#111827,#0b1220);
+.section{
+padding:30px;
 }
 
-.hero h1{
-font-size:58px;
+.league{
+background:#111827;
+padding:15px 20px;
+margin-top:25px;
+border-radius:15px;
+font-size:22px;
+font-weight:bold;
 }
 
-.hero span{
-color:#00ff66;
+.match{
+background:#161b22;
+margin-top:15px;
+padding:20px;
+border-radius:15px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:15px;
+}
+
+.odds{
+display:flex;
+gap:15px;
+margin-top:15px;
+flex-wrap:wrap;
+}
+
+.box{
+background:#26303d;
+padding:12px 18px;
+border-radius:10px;
 }
 
 button{
 background:#00ff66;
 border:none;
-padding:15px 30px;
-border-radius:12px;
+padding:10px 20px;
+border-radius:8px;
 font-weight:bold;
 cursor:pointer;
+margin-top:15px;
 }
 
-.section{
-padding:50px 8%;
+.hidden{
+display:none;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:25px;
-}
-
-.card{
-background:#161b22;
-padding:30px;
-border-radius:20px;
-box-shadow:0 0 15px rgba(0,255,100,.08);
-}
-
-.big{
-font-size:35px;
-font-weight:bold;
-color:#00ff66;
-}
-
-.bar{
-background:#26303d;
-height:20px;
-border-radius:30px;
-overflow:hidden;
-margin-top:10px;
-}
-
-.fill{
-height:100%;
-background:#00ff66;
-width:68%;
-}
-
-.live{
-background:red;
-padding:5px 12px;
-border-radius:20px;
-font-size:14px;
+.detail{
+margin-top:15px;
+background:#0f172a;
+padding:20px;
+border-radius:12px;
 }
 
 footer{
-background:#111827;
-padding:30px;
-text-align:center;
 margin-top:50px;
+padding:30px;
+background:#111827;
+text-align:center;
 }
 
 </style>
@@ -123,200 +135,170 @@ margin-top:50px;
 <header>
 <div class="logo">⚽ SiqScore</div>
 
-<nav>
-<a href="#jogos">Jogos</a>
-<a href="#prob">Probabilidades</a>
-<a href="#live">Ao Vivo</a>
-</nav>
+<div class="menu">
+<a>Hoje</a>
+<a>Amanhã</a>
+<a>Favoritos</a>
+<a>Probabilidades</a>
+</div>
 
 </header>
 
 
-
-<section class="hero">
-
-<h1>
-Encontre <span>Value Bets</span><br>
-com Estatística
-</h1>
-
-<p>
-Análises, probabilidades e picks do dia.
-</p>
-
-<br>
-
-<button onclick="atualizarLive()">
-Atualizar Jogos Ao Vivo
-</button>
-
-</section>
+<div class="tabs">
+<div class="tab">Brasileirão</div>
+<div class="tab">Premier League</div>
+<div class="tab">La Liga</div>
+<div class="tab">Serie A</div>
+</div>
 
 
 
 <section class="section">
 
-<h2>🔥 Pick do Dia</h2>
+<div class="league">
+🇧🇷 Brasileirão
+</div>
 
-<div class="grid">
 
-<div class="card">
+<div class="match">
+
+<div class="row">
 <h3>Palmeiras x Flamengo</h3>
-
-<p>Ambas marcam</p>
-
-<div class="big">
-68%
+<div>19:30</div>
 </div>
 
-<div class="bar">
-<div class="fill"></div>
+<div class="odds">
+<div class="box">1 42%</div>
+<div class="box">X 29%</div>
+<div class="box">2 29%</div>
 </div>
 
-</div>
+<button onclick="toggle('j1')">
+Ver Probabilidades
+</button>
 
-
-<div class="card">
-<h3>ROI do mês</h3>
-
-<div class="big">
-+18%
-</div>
-
-<p>Taxa de acerto: 72%</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section id="jogos" class="section">
-
-<h2>⚽ Jogos do Dia</h2>
-
-<div class="grid">
-
-<div class="card">
-<h3 id="j1">
-Manchester City x Arsenal
-</h3>
-
-<p id="pick">
-Over 2.5 Gols
-</p>
-
-<div class="big" id="odd">
-73%
+<div id="j1" class="detail hidden">
+Over 2.5 gols: 61%<br><br>
+Ambas marcam: 68%<br><br>
+Escanteios +9.5: 57%
 </div>
 
 </div>
 
 
-<div class="card">
-<h3>
-Liverpool x Chelsea
-</h3>
 
-<p>
-Ambas marcam
-</p>
+<div class="match">
 
-<div class="big">
-66%
+<div class="row">
+<h3>Corinthians x Grêmio</h3>
+<div>21:30</div>
+</div>
+
+<div class="odds">
+<div class="box">1 45%</div>
+<div class="box">X 31%</div>
+<div class="box">2 24%</div>
+</div>
+
+<button onclick="toggle('j2')">
+Ver Probabilidades
+</button>
+
+<div id="j2" class="detail hidden">
+Over 2.5 gols: 54%<br><br>
+Ambas marcam: 62%<br><br>
+Escanteios +8.5: 60%
 </div>
 
 </div>
 
+
+
+<div class="league">
+🇬🇧 Premier League
 </div>
 
-</section>
 
+<div class="match">
 
-
-<section id="prob" class="section">
-
-<h2>📊 Probabilidades</h2>
-
-<div class="grid">
-
-<div class="card">
-Vitória Mandante
-<div class="big">
-52%
-</div>
+<div class="row">
+<h3>Arsenal x Liverpool</h3>
+<div>17:00</div>
 </div>
 
-<div class="card">
-Over 2.5
-<div class="big">
-61%
-</div>
+<div class="odds">
+<div class="box">1 39%</div>
+<div class="box">X 30%</div>
+<div class="box">2 31%</div>
 </div>
 
-<div class="card">
-Escanteios +9.5
-<div class="big">
-57%
-</div>
+<button onclick="toggle('j3')">
+Ver Probabilidades
+</button>
+
+<div id="j3" class="detail hidden">
+Over 2.5 gols: 67%<br><br>
+Ambas marcam: 70%<br><br>
+Escanteios +10.5: 58%
 </div>
 
 </div>
 
-</section>
 
 
+<div class="league">
+🇪🇸 La Liga
+</div>
 
-<section id="live" class="section">
 
-<h2>
-<span class="live">
-AO VIVO
-</span>
- Jogos ao Vivo
-</h2>
+<div class="match">
 
-<div class="card">
+<div class="row">
+<h3>Real Madrid x Barcelona</h3>
+<div>16:00</div>
+</div>
 
-<h3 id="livegame">
-Real Madrid 1 x 0 Barcelona
-</h3>
+<div class="odds">
+<div class="box">1 37%</div>
+<div class="box">X 28%</div>
+<div class="box">2 35%</div>
+</div>
 
-<p id="minuto">
-67 minutos
-</p>
+<button onclick="toggle('j4')">
+Ver Probabilidades
+</button>
+
+<div id="j4" class="detail hidden">
+Over 2.5 gols: 71%<br><br>
+Ambas marcam: 74%<br><br>
+Escanteios +9.5: 56%
+</div>
 
 </div>
+
 
 </section>
 
 
 
 <footer>
-SiqScore 2.0 © 2026
+SiqScore © 2026
 </footer>
 
 
 
 <script>
 
-function atualizarLive(){
+function toggle(id){
 
-let jogos=[
-["Manchester City 2 x 1 Arsenal","74 minutos","78%"],
-["Palmeiras 1 x 0 São Paulo","63 minutos","59%"],
-["Liverpool 2 x 2 Chelsea","81 minutos","69%"]
-];
+let e=document.getElementById(id);
 
-let i=Math.floor(Math.random()*jogos.length);
-
-document.getElementById("livegame").innerText=jogos[i][0];
-document.getElementById("minuto").innerText=jogos[i][1];
-document.getElementById("odd").innerText=jogos[i][2];
-
-alert("Dados ao vivo atualizados!");
+if(e.classList.contains("hidden")){
+e.classList.remove("hidden");
+}else{
+e.classList.add("hidden");
+}
 
 }
 
