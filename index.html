@@ -14,22 +14,44 @@ color:white;
 
 header{
 padding:20px;
-background:#111827;
-font-size:25px;
+font-size:28px;
 color:#00ff66;
 text-align:center;
 }
 
-.league{
-margin-top:20px;
-padding:10px;
+.tabs{
+display:flex;
+gap:10px;
+padding:15px;
+justify-content:center;
+}
+
+.tab{
 background:#1f2937;
-font-weight:bold;
+padding:10px 15px;
+border-radius:20px;
+cursor:pointer;
+}
+
+.tab.active{
+background:#00ff66;
+color:black;
 }
 
 .match{
+background:#161b22;
+margin:15px;
 padding:15px;
-border-bottom:1px solid #333;
+border-radius:10px;
+}
+
+button{
+background:#00ff66;
+border:none;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
 }
 
 </style>
@@ -39,44 +61,76 @@ border-bottom:1px solid #333;
 
 <header>⚽ SiqScore</header>
 
+<div class="tabs">
+<div class="tab active" onclick="trocarLiga('br', this)">Brasileirão</div>
+<div class="tab" onclick="trocarLiga('pl', this)">Premier League</div>
+<div class="tab" onclick="trocarLiga('laliga', this)">La Liga</div>
+</div>
+
 <div id="jogos"></div>
 
 <script>
 
-const API_KEY = "123abc456xyz789";
+const jogos = {
+br: [
+"Palmeiras x Flamengo",
+"Corinthians x Grêmio"
+],
+pl: [
+"Arsenal x Liverpool",
+"Manchester City x Chelsea"
+],
+laliga: [
+"Real Madrid x Barcelona",
+"Atlético x Sevilla"
+]
+};
 
-fetch("https://v3.football.api-sports.io/fixtures?date=2024-06-01", {
-method: "GET",
-headers: {
-"x-apisports-key": API_KEY
+function trocarLiga(liga, elemento){
+
+let tabs = document.querySelectorAll(".tab");
+tabs.forEach(t => t.classList.remove("active"));
+
+elemento.classList.add("active");
+
+mostrarJogos(liga);
+
 }
-})
-.then(res => res.json())
-.then(data => {
+
+function mostrarJogos(liga){
 
 let container = document.getElementById("jogos");
+container.innerHTML = "";
 
-data.response.forEach(jogo => {
-
-let liga = jogo.league.name;
-let time1 = jogo.teams.home.name;
-let time2 = jogo.teams.away.name;
-let hora = jogo.fixture.date.substring(11,16);
+jogos[liga].forEach(jogo => {
 
 let div = document.createElement("div");
 div.className="match";
 
 div.innerHTML = `
-<b>${liga}</b><br>
-${time1} vs ${time2}<br>
-🕒 ${hora}
+<h3>${jogo}</h3>
+
+<div>
+<span>1 45%</span> |
+<span>X 30%</span> |
+<span>2 25%</span>
+</div>
+
+<br>
+
+<button onclick="alert('Análise completa em breve')">
+Ver Probabilidades
+</button>
 `;
 
 container.appendChild(div);
 
 });
 
-});
+}
+
+// carregar padrão
+mostrarJogos("br");
 
 </script>
 
