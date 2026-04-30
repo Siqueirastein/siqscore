@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   const API_KEY = process.env.API_KEY;
 
-  const dataFormatada = "2026-04-30"; // DATA FIXA PRA TESTAR
+  const dataFormatada = "2026-04-29"; // DATA FIXA PRA TESTAR
 
   const response = await fetch(
     `https://v3.football.api-sports.io/fixtures?date=${dataFormatada}&season=2026`,
