@@ -45,6 +45,18 @@ padding:15px;
 border-radius:10px;
 }
 
+.odds{
+margin-top:10px;
+}
+
+.odd{
+background:#1f2937;
+padding:8px 12px;
+border-radius:8px;
+margin-right:8px;
+display:inline-block;
+}
+
 button{
 background:#00ff66;
 border:none;
@@ -73,18 +85,27 @@ margin-top:10px;
 
 const jogos = {
 br: [
-"Palmeiras x Flamengo",
-"Corinthians x Grêmio"
+{times:"Palmeiras x Flamengo", hora:"19:30"},
+{times:"Corinthians x Grêmio", hora:"21:30"}
 ],
 pl: [
-"Arsenal x Liverpool",
-"Manchester City x Chelsea"
+{times:"Arsenal x Liverpool", hora:"17:00"},
+{times:"Manchester City x Chelsea", hora:"18:30"}
 ],
 laliga: [
-"Real Madrid x Barcelona",
-"Atlético x Sevilla"
+{times:"Real Madrid x Barcelona", hora:"16:00"},
+{times:"Atlético x Sevilla", hora:"18:00"}
 ]
 };
+
+// gerar odds aleatórias
+function gerarOdds(){
+return {
+casa: (Math.random()*30+40).toFixed(0),
+empate: (Math.random()*20+20).toFixed(0),
+fora: (Math.random()*30+20).toFixed(0)
+};
+}
 
 function trocarLiga(liga, elemento){
 
@@ -104,22 +125,23 @@ container.innerHTML = "";
 
 jogos[liga].forEach(jogo => {
 
+let odds = gerarOdds();
+
 let div = document.createElement("div");
 div.className="match";
 
 div.innerHTML = `
-<h3>${jogo}</h3>
+<h3>${jogo.times}</h3>
+🕒 ${jogo.hora}
 
-<div>
-<span>1 45%</span> |
-<span>X 30%</span> |
-<span>2 25%</span>
+<div class="odds">
+<span class="odd">1 ${odds.casa}%</span>
+<span class="odd">X ${odds.empate}%</span>
+<span class="odd">2 ${odds.fora}%</span>
 </div>
 
-<br>
-
-<button onclick="alert('Análise completa em breve')">
-Ver Probabilidades
+<button onclick="verDetalhes('${jogo.times}')">
+Ver análise
 </button>
 `;
 
@@ -129,7 +151,10 @@ container.appendChild(div);
 
 }
 
-// carregar padrão
+function verDetalhes(jogo){
+alert("Análise detalhada de " + jogo + " em breve 🔥");
+}
+
 mostrarJogos("br");
 
 </script>
