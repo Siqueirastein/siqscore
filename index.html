@@ -1,162 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <title>SiqScore</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#0b1220;
-color:white;
+body {
+  background:#0b1220;
+  color:white;
+  font-family:Arial;
+  text-align:center;
 }
 
-header{
-padding:20px;
-font-size:28px;
-color:#00ff66;
-text-align:center;
+h1 {
+  color:#00ff88;
 }
 
-.tabs{
-display:flex;
-gap:10px;
-padding:15px;
-justify-content:center;
+.btns button {
+  margin:10px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
 }
 
-.tab{
-background:#1f2937;
-padding:10px 15px;
-border-radius:20px;
-cursor:pointer;
+.card {
+  background:#111827;
+  margin:20px auto;
+  padding:20px;
+  width:80%;
+  border-radius:15px;
 }
-
-.tab.active{
-background:#00ff66;
-color:black;
-}
-
-.match{
-background:#161b22;
-margin:15px;
-padding:15px;
-border-radius:10px;
-}
-
-.odds{
-margin-top:10px;
-}
-
-.odd{
-background:#1f2937;
-padding:8px 12px;
-border-radius:8px;
-margin-right:8px;
-display:inline-block;
-}
-
-button{
-background:#00ff66;
-border:none;
-padding:10px;
-border-radius:8px;
-cursor:pointer;
-margin-top:10px;
-}
-
 </style>
 </head>
 
 <body>
 
-<header>⚽ SiqScore</header>
+<h1>SiqScore</h1>
 
-<div class="tabs">
-<div class="tab active" onclick="trocarLiga('br', this)">Brasileirão</div>
-<div class="tab" onclick="trocarLiga('pl', this)">Premier League</div>
-<div class="tab" onclick="trocarLiga('laliga', this)">La Liga</div>
+<div class="btns">
+  <button onclick="carregarJogos('today')">Hoje</button>
+  <button onclick="carregarJogos('tomorrow')">Amanhã</button>
 </div>
 
 <div id="jogos"></div>
 
 <script>
+const API_KEY = "7ff170775b65df8153a04c39d74efaad";
 
-const jogos = {
-br: [
-{times:"Palmeiras x Flamengo", hora:"19:30"},
-{times:"Corinthians x Grêmio", hora:"21:30"}
-],
-pl: [
-{times:"Arsenal x Liverpool", hora:"17:00"},
-{times:"Manchester City x Chelsea", hora:"18:30"}
-],
-laliga: [
-{times:"Real Madrid x Barcelona", hora:"16:00"},
-{times:"Atlético x Sevilla", hora:"18:00"}
-]
-};
+async function carregarJogos(tipo){
 
-// gerar odds aleatórias
-function gerarOdds(){
-return {
-casa: (Math.random()*30+40).toFixed(0),
-empate: (Math.random()*20+20).toFixed(0),
-fora: (Math.random()*30+20).toFixed(0)
-};
+  let data = new Date();
+
+  if(tipo === "tomorrow"){
+    data.setDate(data.getDate()+1);
+  }
+
+  let dataFormatada = data.toISOString().split("T")[0];
+
+  const res = await fetch(`https://v3.football.api-sports.io/fixtures?date=${dataFormatada}`,{
+    headers:{
+      "x-apisports-key": API_KEY
+    }
+  });
+
+  const json = await res.json();
+
+  const jogosDiv = document.getElementById("jogos");
+  jogosDiv.innerHTML = "";
+
+  json.response.slice(0,10).forEach(jogo => {
+
+    jogosDiv.innerHTML += `
+      <div class="card">
+        <h2>${jogo.teams.home.name} x ${jogo.teams.away.name}</h2>
+        <p>${new Date(jogo.fixture.date).toLocaleTimeString()}</p>
+      </div>
+    `;
+  });
 }
 
-function trocarLiga(liga, elemento){
-
-let tabs = document.querySelectorAll(".tab");
-tabs.forEach(t => t.classList.remove("active"));
-
-elemento.classList.add("active");
-
-mostrarJogos(liga);
-
-}
-
-function mostrarJogos(liga){
-
-let container = document.getElementById("jogos");
-container.innerHTML = "";
-
-jogos[liga].forEach(jogo => {
-
-let odds = gerarOdds();
-
-let div = document.createElement("div");
-div.className="match";
-
-div.innerHTML = `
-<h3>${jogo.times}</h3>
-🕒 ${jogo.hora}
-
-<div class="odds">
-<span class="odd">1 ${odds.casa}%</span>
-<span class="odd">X ${odds.empate}%</span>
-<span class="odd">2 ${odds.fora}%</span>
-</div>
-
-<button onclick="verDetalhes('${jogo.times}')">
-Ver análise
-</button>
-`;
-
-container.appendChild(div);
-
-});
-
-}
-
-function verDetalhes(jogo){
-alert("Análise detalhada de " + jogo + " em breve 🔥");
-}
-
-mostrarJogos("br");
-
+carregarJogos("today");
 </script>
 
 </body>
