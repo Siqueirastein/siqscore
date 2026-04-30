@@ -4,10 +4,8 @@ export default async function handler(req, res) {
   const hoje = new Date();
   const dataFormatada = hoje.toISOString().split("T")[0];
 
-  const ano = hoje.getFullYear(); // pega ano automático
-
   const response = await fetch(
-    `https://v3.football.api-sports.io/fixtures?date=${dataFormatada}&season=${ano}`,
+    `https://v3.football.api-sports.io/fixtures?date=${dataFormatada}&season=2024`,
     {
       headers: {
         "x-apisports-key": API_KEY
