@@ -58,9 +58,7 @@ async function carregarJogos(tipo){
 
   let dataFormatada = data.toISOString().split("T")[0];
 
-  const res = await fetch(`https://v3.football.api-sports.io/fixtures?date=${dataFormatada}`,{
-    headers:{
-      "x-apisports-key": API_KEY
+  const res = await fetch(`/api/jogos?date=${dataFormatada}`);
     }
   });
 
